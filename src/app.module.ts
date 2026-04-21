@@ -15,16 +15,23 @@ import { LocationModule } from './location/location.module';
 
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
-      useFactory: (config: ConfigService) => ({
-        type: 'postgres',
-        host: config.get<string>('POSTGRES_HOST'),
-        port: parseInt(config.get<string>('POSTGRES_PORT') || '5432'),
-        username: config.get<string>('POSTGRES_USER'),
-        password: config.get<string>('POSTGRES_PASSWORD'),
-        database: config.get<string>('POSTGRES_DB'),
-        autoLoadEntities: true,
-        synchronize: true,
-      }),
+      useFactory: (config: ConfigService) => {
+        const dbUrl = config.get<string>('DATABASE_URL');
+
+        console.log('DB URL:', dbUrl); // ✅ debug (check in logs)
+
+        return {
+          type: 'postgres',
+          url: dbUrl,
+          autoLoadEntities: true,
+          synchronize: true,
+
+          // 🔥 REQUIRED for Render
+          ssl: {
+            rejectUnauthorized: false,
+          },
+        };
+      },
     }),
 
     LocationModule,
