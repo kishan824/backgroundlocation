@@ -1,12 +1,8 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import open from 'open';
 import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
-  const port = 3000;
-  const host = '192.168.12.115';
-
   const app = await NestFactory.create(AppModule);
 
   app.enableCors();
@@ -17,10 +13,12 @@ async function bootstrap() {
       forbidNonWhitelisted: true,
     }),
   );
-  await app.listen(port, host);
 
-  console.log(`WebSocket running on ws://${host}:${port}`);
-  // await open(`http://${host}:${port}`);
+  const port = process.env.PORT || 3000;
+
+  await app.listen(port);
+
+  console.log(`Server running on port ${port}`);
 }
 
 bootstrap();
