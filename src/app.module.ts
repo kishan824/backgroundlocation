@@ -24,11 +24,6 @@ import { LocationModule } from './location/location.module';
         database: config.get<string>('POSTGRES_DB'),
         autoLoadEntities: true,
         synchronize: true,
-
-        // 🔥 REQUIRED for Render
-        ssl: {
-          rejectUnauthorized: false,
-        },
       }),
     }),
 
