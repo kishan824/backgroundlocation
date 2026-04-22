@@ -16,13 +16,11 @@ export class LocationService {
     return this.repo.save(location);
   }
 
-
-
-  // ✅ Get latest location
-  async getLatestLocation(userId: string) {
-    return this.repo.findOne({
+  async getUserLocations(userId: string) {
+    return this.repo.find({
       where: { userId },
       order: { createdAt: 'DESC' },
+      take: 50,
     });
   }
 }

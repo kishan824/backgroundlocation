@@ -41,7 +41,7 @@ export class LocationController {
   // ✅ GET LATEST LOCATION (NEW)
   @Get('latest')
   async getLatest(@Query('userId') userId: string) {
-    const data = await this.locationService.getLatestLocation(userId);
+    const data = await this.locationService.getUserLocations(userId);
 
     return {
       success: true,
